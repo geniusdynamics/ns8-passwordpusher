@@ -12,22 +12,45 @@ import agent
 # Try to parse the stdin as JSON.
 # If parsing fails, output everything to stderr
 data = json.load(sys.stdin)
-
+host = data.get('host')
+h2hs = data.get("http2https", True)
+PROTOCOL = "https" if h2hs else "http"
 #This is specific to you module, so you need to change it accordingly.
-# we read a json stdin {"vars1":true, "var2":"foo", "vars3": 3} and we writ it to .config/state/environment
-# Upper case to set environment variable and minor case to read from stdin
 
-# this values must exists in the json stdin
-# agent.set_env("MAIL_SERVER", data["mail_server"])
-# agent.set_env("LDAP_DOMAIN", data["ldap_domain"])
+# EMAIL
+rdb = agent.redis_connect(use_replica=True)
+smtp_settings = agent.get_smarthost_settings(rdb)
 
-# you can add default values for the following variables
-# agent.set_env("MAIL_DOMAIN",data.get("mail_domain",""))
-# agent.set_env("WOWORKERSCOUNT",data.get("workers_count",3))
-# agent.set_env("AUXILIARYACCOUNT",data.get("auxiliary_account",True))
-# agent.set_env("ACTIVESYNC",data.get("activesync",False))
+SMTP_HOST = smtp_settings['host']
+SMTP_PORT = smtp_settings['port']
+SMTP_USER = smtp_settings['username']
+SMTP_PASS = smtp_settings['password']
+SMTP_ENCRYPTION = smtp_settings['encrypt_smtp']
+SMTP_TLSVERIFY= 'true' if smtp_settings['tls_verify'] else 'false'
 
 
-# Make sure everything is saved inside the environment file
-# just before starting systemd unit
+password_pusher = {
+    "PWP__ENABLE_LOGINS": "true",
+    "PWP__MAIL__RAISE_DELIVERY_ERRORS": "true",
+    "PWP__MAIL__SMTP_ADDRESS": SMTP_HOST,
+    "PWP__MAIL__SMTP_PORT": SMTP_PORT,
+    "PWP__MAIL__SMTP_USER_NAME": SMTP_USER,
+    "PWP__MAIL__SMTP_PASSWORD": SMTP_PASS,
+    "PWP__MAIL__SMTP_AUTHENTICATION": "plain",
+    "PWP__MAIL__SMTP_STARTTLS": SMTP_TLSVERIFY,
+    "PWP__MAIL__SMTP_OPEN_TIMEOUT": "10",
+    "PWP__MAIL__SMTP_READ_TIMEOUT": "10",
+    "PWP__HOST_DOMAIN": host,
+    "PWP__HOST_PROTOCOL": PROTOCOL,
+    "PWP__MAIL__MAILER_SENDER": f'Password Pusher <{SMTP_USER}>',
+    "PWP__ENABLE_FILE_PUSHES": "true",
+    "PWP__FILES__STORAGE": "local",
+    "PWP__FILES__EXPIRE_AFTER_DAYS_DEFAULT": "2",
+    "PWP__FILES__EXPIRE_AFTER_DAYS_MAX": "7",
+    "PWP__FILES__EXPIRE_AFTER_VIEWS_DEFAULT": "5",
+    "PWP__FILES__EXPIRE_AFTER_VIEWS_MAX": "10",
+    "PWP__FILES__RETRIEVAL_STEP_DEFAULT": "true",
+    "PWP__ENABLE_URL_PUSHES": "true"
+}
+agent.write_envfile("password-pusher.env", password_pusher)
 #agent.dump_env()
