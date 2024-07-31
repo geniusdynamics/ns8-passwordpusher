@@ -1,19 +1,19 @@
 {
   "name": "passwordpusher",
   "description": {
-    "en": "My passwordpusher module"
+    "en": "Securely share sensitive information with automatic expiration & deletion after a set number of views or duration."
   },
   "categories": [],
   "authors": [
     {
-      "name": "Name Surname",
-      "email": "author@yourmail.org"
+      "name": "Kemboi Elvis",
+      "email": "kemboielvis@genius.ke"
     }
   ],
   "docs": {
     "documentation_url": "https://docs.passwordpusher.com/",
-    "bug_url": "https://github.com/NethServer/dev",
-    "code_url": "https://github.com/author/ns8-passwordpusher"
+    "bug_url": "https://github.com/geniusdynamics/dev",
+    "code_url": "https://github.com/geniusdynamics/ns8-passwordpusher"
   },
-  "source": "ghcr.io/nethserver/passwordpusher"
+  "source": "ghcr.io/geniusdynamics/passwordpusher"
 }
