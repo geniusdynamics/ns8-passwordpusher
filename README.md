@@ -4,8 +4,10 @@
 ## Install
 
 Instantiate the module with:
-
-    add-module ghcr.io/geniusdynamics/passwordpusher:latest 1
+```shell
+add-module ghcr.io/geniusdynamics/passwordpusher:latest 1
+```
+    
 
 The output of the command will return the instance name.
 Output example:
@@ -48,15 +50,19 @@ api-cli run get-configuration --agent module/passwordpusher1
 ## Uninstall
 
 To uninstall the instance:
-
-    remove-module --no-preserve passwordpusher1
+```shell
+remove-module --no-preserve passwordpusher1
+```
+    
 
 ## Update
 
 To Update the instance:
+```shell
+api-cli run update-module --data '{"module_url":"ghcr.io/geniusdynamics/passwordpusher:latest","instances":["passwordpusher1"],"force":true}'
 
-    api-cli run update-module --data '{"module_url":"ghcr.io/geniusdynamics/passwordpusher:latest","instances":["passwordpusher1"],"force":true}'
-
+```
+    
 ## Smarthost setting discovery
 
 Some configuration settings, like the smarthost setup, are not part of the
