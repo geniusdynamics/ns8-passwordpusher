@@ -12,21 +12,21 @@ import agent
 # Try to parse the stdin as JSON.
 # If parsing fails, output everything to stderr
 data = json.load(sys.stdin)
-host = data.get('host')
+host = data.get("host")
 h2hs = data.get("http2https", True)
 PROTOCOL = "https" if h2hs else "http"
-#This is specific to you module, so you need to change it accordingly.
+# This is specific to you module, so you need to change it accordingly.
 
 # EMAIL
 rdb = agent.redis_connect(use_replica=True)
 smtp_settings = agent.get_smarthost_settings(rdb)
 
-SMTP_HOST = smtp_settings['host']
-SMTP_PORT = smtp_settings['port']
-SMTP_USER = smtp_settings['username']
-SMTP_PASS = smtp_settings['password']
-SMTP_ENCRYPTION = smtp_settings['encrypt_smtp']
-SMTP_TLSVERIFY= 'true' if smtp_settings['tls_verify'] else 'false'
+SMTP_HOST = smtp_settings["host"]
+SMTP_PORT = smtp_settings["port"]
+SMTP_USER = smtp_settings["username"]
+SMTP_PASS = smtp_settings["password"]
+SMTP_ENCRYPTION = smtp_settings["encrypt_smtp"]
+SMTP_TLSVERIFY = "true" if smtp_settings["tls_verify"] else "false"
 
 
 password_pusher = {
@@ -42,7 +42,7 @@ password_pusher = {
     "PWP__MAIL__SMTP_READ_TIMEOUT": "10",
     "PWP__HOST_DOMAIN": host,
     "PWP__HOST_PROTOCOL": PROTOCOL,
-    "PWP__MAIL__MAILER_SENDER": f'Password Pusher <{SMTP_USER}>',
+    "PWP__MAIL__MAILER_SENDER": f"Password Pusher <{SMTP_USER}>",
     "PWP__ENABLE_FILE_PUSHES": "true",
     "PWP__FILES__STORAGE": "local",
     "PWP__FILES__EXPIRE_AFTER_DAYS_DEFAULT": "2",
@@ -50,7 +50,8 @@ password_pusher = {
     "PWP__FILES__EXPIRE_AFTER_VIEWS_DEFAULT": "5",
     "PWP__FILES__EXPIRE_AFTER_VIEWS_MAX": "10",
     "PWP__FILES__RETRIEVAL_STEP_DEFAULT": "true",
-    "PWP__ENABLE_URL_PUSHES": "true"
+    "PWP__ENABLE_URL_PUSHES": "true",
+    "PWP__ALLOW_ANONYMOUS": "false",
 }
 agent.write_envfile("password-pusher.env", password_pusher)
-#agent.dump_env()
+# agent.dump_env()
