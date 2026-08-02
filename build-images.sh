@@ -14,7 +14,7 @@ images=()
 repobase="${REPOBASE:-ghcr.io/geniusdynamics}"
 # Configure the image name
 reponame="passwordpusher"
-password_pusher_version="2.7"
+password_pusher_version="2.9"
 # Create a new empty container image
 container=$(buildah from scratch)
 
