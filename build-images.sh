@@ -17,7 +17,8 @@ reponame="passwordpusher"
 # Node.js 25+ no longer ships Corepack, install it from npm
 # renovate: datasource=npm packageName=corepack
 corepack_version=0.36.0
-password_pusher_version="2.9"
+# renovate: datasource=docker packageName=docker.io/pglombardo/pwpush
+password_pusher_version=2.9
 # Create a new empty container image
 container=$(buildah from scratch)
 
