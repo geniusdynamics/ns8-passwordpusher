@@ -1,9 +1,12 @@
 {
   "name": "passwordpusher",
   "description": {
-    "en": "Securely share sensitive information with automatic expiration & deletion after a set number of views or duration."
+    "en": "Securely share sensitive information with automatic expiration & deletion after a set number of views or duration.",
+    "it": "Password Pusher condivide informazioni sensibili con scadenza e cancellazione automatica dopo un certo numero di visualizzazioni."
   },
-  "categories": [],
+  "categories": [
+    "security"
+  ],
   "authors": [
     {
       "name": "Kemboi Elvis",
